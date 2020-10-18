@@ -3,12 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "@welldone-software/why-did-you-render": "^5.0.0-rc.1",
+    "cheerio": "^1.0.0-rc.3",
+    "immutable": "^4.0.0-rc.12",
+    "jsdom": "^16.4.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-scripts": "3.4.3"
+    "react-scripts": "3.4.3",
+    "react-virtualized": "^9.22.2"
   },
   "scripts": {
     "start": "react-scripts start",
