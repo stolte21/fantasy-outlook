@@ -4,9 +4,12 @@ import {
     Container,
     Grid,
     Box,
-    CircularProgress
+    makeStyles,
+    useMediaQuery
 } from '@material-ui/core';
 import Select from './Select';
+import StatsList from './StatsList';
+import StatsTable from './StatsTable';
 import { statCategories, categoriesConfig, RUSHING, RUSHING_AND_RECEIVING } from '../constants/statCategories';
 import useScoreboards from '../hooks/useScoreboards';
 import useBoxscores from '../hooks/useBoxscores';
@@ -19,8 +22,23 @@ const weekNums = function() {
     return weeks;
 }();
 
+const useStyles = makeStyles((theme) => ({
+    container: {
+        height: '100%',
+    },
+    box: {
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column'
+    },
+    content: {
+        flexGrow: 1
+    }
+}));
+
 const App = () => {
 
+    const { container, box, content } = useStyles();
     const [week, setWeek] = useState('');
     const [category, setCategory] = useState(RUSHING);
     const [scoreboards] = useScoreboards(setWeek, weekNums);
@@ -70,15 +88,19 @@ const App = () => {
         );
     };
 
-    return (
-        <Container>
-            <Box padding={2}>
-                {renderSelects()}
+    const isMobile =  useMediaQuery(theme => theme.breakpoints.down('sm'));
 
-                {
-                    isLoadingWeek &&
-                    <CircularProgress />
-                }
+    return (
+        <Container className={container}>
+            <Box className={box} padding={2}>
+                {renderSelects()}
+                <div className={content}>
+                    {isMobile ? (
+                        <StatsList />
+                    ) : (
+                        <StatsTable />
+                    )}
+                </div>
             </Box>
         </Container>
     );

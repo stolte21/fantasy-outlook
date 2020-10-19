@@ -2,7 +2,19 @@ import cheerio from 'cheerio';
 import { useState, useEffect } from 'react';
 import { Map } from 'immutable';
 import { RUSHING, RECEIVING } from '../constants/statCategories';
-import PlayerRecord from '../records/PlayerRecord';
+import { 
+    CARRIES,
+    YARDS_RUSHING,
+    YARDS_RUSHING_AVERAGE,
+    TD_RUSHING,
+    LONG_RUSHING,
+    RECEPTIONS,
+    YARDS_RECEIVING,
+    YARDS_RECEIVING_AVERAGE,
+    TD_RECEIVING,
+    LONG_RECEIVING,
+    TARGETS
+} from '../constants/statAttributes';
 
 const useBoxscores = (scoreboards, selectedWeek) => {
 
@@ -44,7 +56,7 @@ const useBoxscores = (scoreboards, selectedWeek) => {
                             });
 
                             setLoadingMap(loadingMap.set(selectedWeek, false));
-                            setWeeklyStats(weeklyStats.set(selectedWeek, playersData));
+                            setWeeklyStats(stats => stats.set(selectedWeek, playersData));
                         })
                     ));
                 }
@@ -87,25 +99,25 @@ const extractPlayerStatsFromHtmlRow = (row, isRushingBox) => {
 
             switch(cell.attribs.class) {
                 case 'car':
-                    attributeKey = 'carries';
+                    attributeKey = CARRIES;
                     break;
                 case 'rec':
-                    attributeKey = 'receptions';
+                    attributeKey = RECEPTIONS;
                     break;
                 case 'yds':
-                    attributeKey = isRushingBox ? 'yardsRushing' : 'yardsReceiving';
+                    attributeKey = isRushingBox ? YARDS_RUSHING : YARDS_RECEIVING;
                     break;
                 case 'avg':
-                    attributeKey = isRushingBox ? 'yardsRushingAverage' : 'yardsReceivingAverage';
+                    attributeKey = isRushingBox ? YARDS_RUSHING_AVERAGE : YARDS_RECEIVING_AVERAGE;
                     break;
                 case 'td':
-                    attributeKey = isRushingBox ? 'tdRushing' : 'tdReceiving';
+                    attributeKey = isRushingBox ? TD_RUSHING : TD_RECEIVING;
                     break;
                 case 'long':
-                    attributeKey = isRushingBox ? 'longRushing' : 'longReceiving';
+                    attributeKey = isRushingBox ? LONG_RUSHING : LONG_RECEIVING;
                     break;
                 case 'tgts':
-                    attributeKey = 'targets';
+                    attributeKey = TARGETS;
                     break;
                 default:
                     console.log('Unknown Stat: ', cell.attribs.class);
@@ -115,7 +127,7 @@ const extractPlayerStatsFromHtmlRow = (row, isRushingBox) => {
         }
     });
 
-    return PlayerRecord(player);
+    return player;
 };
 
 export default useBoxscores;
