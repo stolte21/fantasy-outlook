@@ -1,6 +1,6 @@
-export const RUSHING = 'RUSHING';
-export const RECEIVING = 'RECEIVING';
-export const RUSHING_AND_RECEIVING = 'RUSHING_AND_RECEIVING';
+export const RUSHING = 'rusher';
+export const RECEIVING = 'receiver';
+export const RUSHING_AND_RECEIVING = 'both';
 
 export const statCategories = [
     RUSHING,
